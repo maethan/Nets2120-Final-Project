@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>	
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+		<link type="text/css" href="homepage.css">
+		
+		<style>
+		body {
+			--color-background: #2B3948;
+			--color-card-primary: #202D3A;
+			--color-background-light: #364656;
+			--color-dark-gray: #364656;
+			--color-dark-text: #616F8C;
+			--color-button-hover: #283343;
+			--color-white: #CAD3DE;
+			--color-gray: #667483;
+			--color-accent-green-dark: #3E8C8C;
+			--color-accent-green-light: #50BFAB;
+			--border-radius: 4px;
+			
+			background: var(--color-background);
+		}
+		
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: "Lucida Console", "Courier New", monospace;
+			box-sizing: border-box;
+		}
+		
+		a{
+			text-decoration: none;
+			color: #000000;
+		}
+		
+		img{
+			cursor: pointer;
+		}
+		
+		.flex-div{
+			display: flex;
+			align-items: center;
+		}
+		
+		nav{
+			padding: 8px 2%;
+			justify-content: space-between;
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+			background: var(--color-button-hover);
+			top: 0;
+			z-index: 10;
+			margin-bottom: 14px;
+		}
+		.nav-right img{
+			width: 25px;
+			margin-right: 15px;
+		}
+		.nav-right .nav-circular-icon{
+			width: 35px;
+			border-radius: 50%;
+			margin-right: 0px;
+		}
+		
+		.search-bar{			
+			border: 1px solid #5A5A5A;
+			margin-left: 15px;
+			padding: 6px 12px;
+			border-radius: var(--border-radius);
+			transition: background 0.2s, border-color 0.2s;
+			outline: none;
+			background: #eeeeee;
+		}
+		
+		.search-bar:focus{
+			border: 1px solid var(--color-white);
+			background: #ffffff;
+		}
+		
+		.search-bar input{
+			width: 400px;
+			border: 0;
+			outline: 0;
+			background: transparent;
+		}
+		
+		.left{
+			width:300px;
+			max-width:300px;
+		}
+		
+		.left-container{
+			display: flex;
+			flex-wrap: wrap;
+			width: 300px;
+			max-width: 300px;
+			margin-left: 1rem;
+			padding: 2rem;
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+			border-radius: var(--border-radius);
+			background: var(--color-button-hover);
+			align-items: center;
+			float:left;
+			text-align: center;
+			margin-bottom: 0.5rem;
+		}
+		
+		.top-panel{
+			height: 100%;
+			width: 100%;
+			color: var(--color-accent-green-light);
+		}
+		
+		.bot-panel{
+			height: 100%;
+			width: 100%;
+			text-align: center;
+			color: var(--color-gray);
+		}
+		
+		.left-container .second{
+			
+		}
+		
+		.form_button{
+			width: 50%;
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			background: var(--color-background);
+		}
+		
+		
+		.form_button:hover {
+			background: var(--color-button-hover);
+			cursor: pointer;
+		}
+		
+		.form_button:active {
+			transform: scale(0.98);
+		}
+		
+		.posts-container{
+			align-items: center;
+			margin-left: 330px;
+		}
+		
+		.create-post{
+			width: 575px;
+			max-width: 575px;
+			margin: 1rem;
+			padding-top: 2rem;
+			padding-right: 2rem;
+			padding-bottom: 1rem;
+			border-radius: var(--border-radius);
+			background: #ffffff;
+			background: var(--color-button-hover);
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+		}
+		
+		
+		.create-post .form_button{
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			width: 13%;
+			background: var(--color-secondary);
+		}
+		
+		.create-post .search-bar{
+			margin-bottom: 1rem;
+			width: 97.5%;
+			padding: 0.75rem;
+			box-sizing: border-box;
+			border-radius: 6px;
+		}
+		
+		.post{
+			color: white;
+			width: 575px;
+			max-width: 575px;
+			margin: 1rem;
+			padding: 2rem;
+			box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.2);
+			border-radius: var(--border-radius);
+			background: var(--color-card-primary);
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+		}
+		
+		.link:hover{
+			background: var(--color-white);
+		}
+		.text_link:hover{
+			text-decoration: underline;
+			cursor: pointer;
+		}
+		
+		.commentButton{
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: #ffffff;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			width: 13%;
+			background: var(--color-background);
+		}
+		
+		.add-comment-textbox{
+			border: 1px solid #5A5A5A;
+			padding: 1px 8px;
+			border-radius: var(--border-radius);
+			transition: background 0.2s, border-color 0.2s;
+			outline: none;
+			background: var(--color-gray);
+		}
+		
+		.add-comment-textbox:focus{
+			background: var(--color-white);
+			border: 1px solid var(--color-white);
+
+		}
+		
+		.likeButton{
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: #ffffff;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			width: 13%;
+			background: var(--color-background);
+		}
+		
+		.logo{
+			color: white;
+		}
+		
+		.comment-container{
+			color: white;
+			align-items: right;
+			margin-left: 20px;
+			font-size: 0.75rem;
+		}
+		
+		.indiv-comment-container{
+			width: 400px;
+			max-width: 400px;
+			margin: 1rem;
+			padding: 2rem;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+			border-radius: var(--border-radius);
+			background: var(--color-button-hover);
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+		}
+		
+		.commentHeader{
+			
+		}
+		
+		</style>
+	</head>
+	<script type="text/javascript">
+		var postIDs = new Set; // maybe just keep a set of ids. use ids as id names in div
+		
+		function createPostDiv(postData) {
+			var outerDiv = document.createElement("div");
+			var post = document.createElement("div");
+			
+			const button = document.createElement("BUTTON");
+			button.innerText = "comments";
+			button.className = "form_button commentButton";
+			
+			var form = document.createElement("form");
+			
+			var textbox = document.createElement("input");
+			textbox.setAttribute("type", "text");
+			textbox.setAttribute("placeholder", "# Make a comment...");
+			textbox.id = "text" + postData.postID.S;
+			textbox.className = "add-comment-textbox";
+			var submit = document.createElement("input");
+			submit.setAttribute("type", "submit");
+			submit.setAttribute("value", "comment");
+			submit.className = "form_button commentButton";
+			submit.id = postData.postID.S;
+			submit.setAttribute("name", "comment-submit-button");
+			$(form).append(textbox, submit);
+			
+			//document.body.appendChild(button);
+			const likeButton = document.createElement("BUTTON");
+			likeButton.innerText="like";
+			likeButton.className = "form_button likeButton";
+			// if id is 'on', then it has already been liked. also have to make a remove likes route
+			
+			likeButton.id = "like-"+postData.postID.S;
+			
+			var inter_bar = document.createElement("div");
+			inter_bar.className = "interaction_bar";
+			$(inter_bar).append(form, button, likeButton);
+			
+			var postHeader = document.createElement("div");
+			postHeader.innerHTML = postData.creatorUsername.S + " -> " + postData.username.S + " : " + postData.timestamp.N;
+			
+			var content = document.createElement("div");
+			content.innerHTML = postData.content.S;
+			
+			//console.log("current post:", postData);
+			//post.id = postData.postID.S;
+			post.className = "post";
+			post.append(postHeader, content, inter_bar);
+			outerDiv.append(post);
+			
+			$('#posts').append(outerDiv);
+			
+			console.log(postData.postID.S);
+			postIDs.add(postData.postID.S);
+			
+			// have to call getLikes here to show how many likes and to check if user has liked already or not
+			$.getJSON("/getLikes", {postID: postData.postID.S}, function(res) {
+				console.log(res);
+				if(res.alreadyLiked) {
+					likeButton.classList.add("on");
+					console.log("initially liked");
+				}
+				$(inter_bar).append(res.numLikes);
+			})
+			
+			likeButton.onclick = function(){
+				if (likeButton.classList.contains("on")) {
+					console.log("remove like entered");
+					likeButton.classList.remove("on");
+					$.post("/removeLike", {postID: postData.postID.S}, function(result) {
+						console.log(result);
+						$.getJSON("/getLikes", {postID: postData.postID.S}, function(res) {
+							console.log(res);
+							$(inter_bar).append(res.numLikes);
+						})
+					})
+				} else {
+					$.post("/addLike", {postID: postData.postID.S}, function(result) {
+						console.log(result);
+						// make the button clicked (liked)
+						likeButton.classList.add("on")
+						$.getJSON("/getLikes", {postID: postData.postID.S}, function(res) {
+							console.log(res);
+							$(inter_bar).append(res.numLikes);
+						})
+					})
+				}				
+			};
+			
+			button.onclick = function(){
+				console.log("entered comment button");
+				const id = postData.postID.S;
+				// show add comments bar?
+				$.getJSON('/getComments', {postID: id}, function(comments) {
+					console.log(comments);
+					var commentContainer = document.createElement("div");
+					commentContainer.className = "comment-container";
+					if (comments.length == 0) {
+						// show empty comment section
+						console.log("no comments");
+						commentContainer.innerHTML = "no comments";
+					} else {
+						// expand under post to show comment section. then change text to hide comment section						
+						function createCommentDiv(commentData) {
+							var comment = document.createElement("div");
+							comment.className = "indiv-comment-container";
+							
+							var commentHeader = document.createElement("div");
+							commentHeader.className = "comment-header";
+							commentHeader.innerHTML = "@" + commentData.username.S + " " + commentData.firstName.S + " " + commentData.lastName.S + " " + commentData.timestamp.N;
+							
+							var textDiv = document.createElement("div");
+							textDiv.innerText = commentData.content.S;
+							textDiv.className = "comment-text";
+							comment.append(commentHeader, textDiv);
+							commentContainer.append(comment);
+						}
+						comments.forEach(createCommentDiv);
+						outerDiv.append(commentContainer);
+					}
+				})
+				// for comments and posts, have to get from userid to usernames
+			};
+			
+		}
+		
+		$(document).ready(function() {
+
+			var user;
+			
+			
+			$("#search").keyup(function() {
+				var searchName =  $("#search").val();
+				
+				if (searchName == "") {
+					$("#display").html("");
+				} else {
+					console.log("i am not empty!")
+					$.post("/getSearchResult", 
+					{
+						searchName: searchName
+					}, function(data, status) {
+						var myData = JSON.parse(data)
+						console.log(myData)
+						$("#display").html(myData.list).show();
+					})
+				}
+				
+				/*
+				if (searchName != "") {
+					$.post("/getSearchResult", {
+						searchName: searchName
+					}), function(data) {
+						//data is list of suggestions
+						a = document.createElement("div");
+						a.setAttribute("id", "autocomplete-list");
+						a.setAttibute("class", "autocomplete-items");
+						$('#search').append(a);
+						for(var i=0; i < data.length; i++) {
+							b = document.createElement("div");
+							b.innerHTML = "<strong>" + searchName + "</strong>";
+							b.innerHTML += data[i].name.substring(searchName.length);
+							b.addEventListener("click", function(event) {
+								//redirect to that user's page
+								window.location.href = '/user/' + data[i];
+							})
+						}
+					}
+				}*/
+			})
+						
+			$.getJSON('/getUserInfo', function(data) {
+				console.log(data);
+				$('#accountData').html('Account data: <br> email:' + data.Item.email.S + '<br>' 
+						+ 'username: ' + data.Item.username.S);
+				$('#name').html(data.Item.firstName.S + " " + data.Item.lastName.S);
+				$('#username').html("@" + data.Item.username.S);
+				$('#username').css({"font-style": "italic"});
+				user = data.Item.username.S;
+				console.log('username', user);
+				
+				$.getJSON('/getPosts', function(data) {
+					if (data) {
+						console.log('getPosts data', data);
+						for(var i=0; i < data.length; i++) {
+							createPostDiv(data[i]);
+						}
+						console.log("PosTS:", postIDs);
+					} else { // no posts
+						$('#posts').html('User has no posts. You can make the first post on this wall!')
+					}
+				})
+			})
+			
+			
+			$('#create-post-form').submit(function(event) {
+				event.preventDefault();
+				if($('#postContent').val() != '') {
+					console.log("create post");
+					$.post('/addPost', {
+						username: user,
+						content: $('#postContent').val()
+					}, function(addResult) {
+						console.log(addResult.success);
+						if(addResult.success) {
+							console.log('success');
+						}
+						$('#postContent').val('');
+
+						console.log("add post result", addResult);
+					})
+				}
+			})
+			
+			$('#posts').on('click', "input[name='comment-submit-button']", function(event) {
+				event.preventDefault();
+				alert("click");
+				var textid = "text" + $(this).attr('id');
+				console.log(textid);
+				var c = $('#' + textid).val();
+				console.log(c);
+				if(c == '') {
+					alert("empty thing"); //or make button dark so cant be clicked
+				} else {
+					$.post('/addComment', {
+						postID: $(this).attr('id'),
+						content: c
+					}, function(success) {
+						console.log(success);
+						$('#' + textid).val("");
+					})
+				}
+			})
+			
+		})
+		
+		var refreshPage = function() {
+			$.getJSON('/getNotifications', 
+			{}, 
+			function(data) {
+				//console.log("my data is", data)
+				
+				if (data.success) {
+					var myResult = ""
+					$("#notifications").empty();
+					for (var i = 0; i < data.data.length; i++) {
+						var currentDict = data.data[i]
+
+						if (currentDict.notifType === 'friendRequest') {
+							/*
+							myResult += '<div>'  +  
+								'<h6>' + currentDict.timestamp +'</h6>' +
+								'<h5>' + 'You have received a friend request from ' + currentDict.senderUsername + '</h5>' +
+								'<button type="button" id=\"' + currentDict.recipientID + ';' +  currentDict.senderID +
+								"\" name=\"acceptFriendRequestButton\"" + 
+								'>Accept request</button>' + 
+								'</div>' */
+							var s = currentDict.timestamp
+							var d = new Date(0); 
+							d.setUTCSeconds(s);
+
+							var divFriendRequest = $(document.createElement('div'))
+							$(divFriendRequest).append("<p> Friend request sent " + d + "</p>")
+							$(divFriendRequest).append("<h7> You have received friend request from <a href=/user/" 
+								+ currentDict.senderUsername + '>' + currentDict.senderUsername +  '</a></h7>');
+							$(divFriendRequest).append('<input type="button"' + 
+                            'id="'+ currentDict.senderID + ";" + currentDict.recipientID + ";" + currentDict.senderUsername + ";" + s 
+							+ '" onclick="acceptFriendRequestAction()" name="acceptFriendButton" value="Accept Friend" />')
+							$("#notifications").append(divFriendRequest)
+						}
+					}
+				} else {
+
+				}
+			})
+			// setTimeout(refreshPage, 1000); 
+		}
+
+
+		$(document).ready(function() {
+			setTimeout(refreshPage, 1000); 
+		})
+
+		function acceptFriendRequestAction() {
+			$(document).ready(function() {
+				 // get username and recpient username and query it using
+				 $('#notifications').on('click', "input[name='acceptFriendButton']", function(){
+    			
+					var temp = $(this).attr('id')
+					temp = temp.split(";")
+					var senderID = temp[0]
+					var recipientID = temp[1]
+					var senderUserName = temp[2]
+					var timestamp = temp[3]
+					
+					$.post('/acceptFriendRequest', 
+					{
+						"senderID": senderID,
+						"recipientID": recipientID,
+						"senderUserName": senderUserName,
+						"timestamp": timestamp
+					}, 
+					function(data) {
+						data = JSON.parse(data)
+						if (data.success) {
+							
+							$("#myModal .body").text(data.message);
+							$('#myModal').modal('show'); 
+						} else {
+							
+							$("#myModal .body").text(data.message);
+							$('#myModal').modal('show'); 
+						}
+					})
+				})
+			})
+		}
+
+		function getFriendVisualizerPlease() {
+			$(document).ready(function() {
+				$.getJSON('/friendvisualization', function(json) {
+					// WHAT TO DO NOW???
+					var w = ("#visualizer").offsetWidth - 50; 
+					var h = ("#visualizer").offsetHeight - 50;
+					console.log(json)
+					var ht = new $jit.Hypertree({
+
+						//id of the visualization container
+						injectInto: 'infovis',
+						//canvas width and height
+						width: w,
+						height: h,
+						//Change node and edge styles such as
+						//color, width and dimensions.
+						Node: {
+							//overridable: true,
+							'transform': false,
+							color: "#f00"
+						},
+					
+						Edge: {
+							//overridable: true,
+							color: "#088"
+						},
+						//calculate nodes offset
+						offset: 0.2,
+						//Change the animation transition type
+						transition: $jit.Trans.Back.easeOut,
+						//animation duration (in milliseconds)
+						duration:1000,
+
+						onPlaceLabel: function(domElement, node){
+							var width = domElement.offsetWidth;
+							var intX = parseInt(domElement.style.left);
+							intX -= width / 2;
+							domElement.style.left = intX + 'px';
+        				},
+
+						onComplete: function(){
+        				}
+					});
+					ht.loadJSON(json);
+					//compute positions and plot.
+					ht.refresh();
+					//end
+					ht.controller.onBeforeCompute(ht.graph.getNode(ht.root));
+					ht.controller.onAfterCompute();
+					ht.controller.onComplete();
+				});
+			})
+		}
+
+		function validate(term) {
+			var searchString = term.value;
+			if (searchString.length > 0 && searchString.match(/^[A-Za-z ]+$/)) {
+			return true;
+			} else {
+			alert("Words must be purely alphabetic");
+			var event = window.event;
+			event.stopPropagation();
+			event.preventDefault();
+
+			document.searchForm.keyword.focus();
+			return false;
+			}
+		}
+
+		
+	</script>
+	<body>
+		<nav class="flex-div">
+			<div class="nav-left flex-div">
+				<!-- paths just don't work <img src="./images/logo.png"> -->
+				<h1 class="logo" id="logo" style="font-family: mono">FakeBook</h1>
+				<div class="search-bar">
+					<input type="text" id="search" placeholder="# Search for a user">
+				</div>
+			</div>
+
+
+			
+			<div class="nav-right flex-div">
+				<img src="./images/home.png">
+				<img src="./images/wall.png">
+				<img src="./images/notifications.png">
+				<img src="./images/chat.png">
+				<img src="./images/account.png" class="nav-circular-icon">
+				<!--  <h2>Home</h2>
+				<h2>Wall</h2>
+				<h2>Notifs</h2>
+				<h2>Chat</h2>
+				<h2>Account</h2> --> 
+			</div>
+		</nav>
+
+		<form name="searchForm" action="/searchNews"  onsubmit="validate(document.searchForm.keyword)">
+			<label for="keyword"># Search for a news article</label><br/>
+			<input type="text" id="keyword" name="keyword" />
+			 <input type="submit" value="Search">
+		</form>
+		
+		<!-- INFO PANEL - maybe add a description/bibliography to make it more aesthetically pleasing lol -->
+		<div class="left">
+			<div class="left-container">
+				<div class="top-panel">
+					<h2 id="name" style="margin-top: 3rem; margin-bottom: 0.1rem;"></h2>
+					<h5 id="username" style="margin-bottom: 3rem;"><i></i></h5>
+				</div>
+				<div class="bot-panel">
+					<p id="interests" style="font-size: 10px; margin-top:3rem;"><i>interest1, interest2, interest3</i></p>
+					<p id="num_friends" style="font-size: 10px; margin-top:4rem; margin-bottom:2rem">10 Friends | 5 Mutual Friends?</p>
+					<a href="/accountChange">
+						<button class="form_button" type="submit"><i>Update Information</i></button>
+					</a>
+				</div>
+			</div>
+			<div class="left-container second">
+
+				<!-- Visualizer -->
+				<div class="top-panel link">
+					<!--<h3 class="text_link" onclick=getFriendVisualizerPlease() > friends (visualizer)</h3> -->
+					<h3 onclick="window.location='visualize'">Click bro</h3>
+				</div>
+				<div class="bot-panel second">
+				<!---->	
+
+				</div>
+				<div class="top-panel link">
+					<h3 class="text_link" onclick="window.location='chats'">Messages</h3>
+				</div>
+				<div class="bot-panel second">
+				
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="posts-container">
+			<div class="create-post">
+				<form action="/addPost" onSubmit="return false" id="create-post-form">
+					<div>
+						<input type="text" id="postContent" class="search-bar" autofocus id="postContent" placeholder="# Make a post...">
+					</div>
+					<div style="text-align:right">
+						<button id="submitPost" class="form_button" onSubmit="return false">Post</button>
+					</div>
+				</form>
+			</div>
+			<div id="posts"></div>
+		</div>
+		
+		<!-- Left SideBar - displays related news and friends/chat? -->
+		
+		
+		
+		
+		
+		<h1>Hello world (Homepage)</h1>
+		<!-- Search bar functionality -->
+		
+		<div id="display"></div> 
+		<!-- ************************** -->
+		<!--Notificaiton functionality-->
+		<div id="notifications"></div>
+		<!--****************************-->
+		<!--Friend pop-up modal-->
+		<div id="myModal" role="dialog" class="modal">
+
+			<div class="modal-dialog">
+
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						
+					</div>
+
+					<div class="body">
+
+					</div>
+					<div class=modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!--****************************-->
+		<!--Friend visuzlier div-->
+		<div id="visualizer"></div>
+		<!--*****************************-->
+		<div id="accountData"></div>
+
+		<a href="/accountChange">Update account information</a>
+		
+		<div id="posts"></div>
+
+	</body>
+
+</html>

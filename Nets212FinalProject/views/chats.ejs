@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	
+	<body>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <main>
+            <div>
+                <p>Chats:</p>
+            </div>
+            <div>
+                <ul id="chats" style="width: 500px; height: 300px; overflow: auto">
+                </ul>
+            </div>
+            <script type="text/javascript">
+                var chatsMap = <%- JSON.stringify(chatsMap) %>;
+                console.log(chatsMap);
+                console.log("Loading saved chat rooms");
+                if (chatsMap.length > 0) {
+                    for (let chatItem of chatsMap) {
+                        var newChat = document.createElement('li');
+
+                        var title = "";
+                        for (let j = 0; j < chatItem.users.length; j++) {
+                            let word = chatItem.users[j];
+                            console.log("word", word);
+                            title = title + word + ", ";
+                        }
+                        title = title.slice(0, -2);
+                        console.log("title", title);
+                        var a = document.createElement('a');
+                        var link = document.createTextNode(title);
+                        var ref =  "/chatRoom?chatID=" + chatItem.chatID;
+                        a.appendChild(link);
+                        a.title = title;
+                        a.href = ref;
+
+                        newChat.appendChild(a);
+
+                        $('#chats').append(newChat);
+                        $('#chats').animate({
+                            scrollTop: $('#chats').get(0).scrollHeight
+                        }, 0);
+                    }
+                } else {
+                    var newMsg = document.createElement('li');
+                    newMsg.appendChild(document.createTextNode("No chats to display!"));
+                    $('#chats').append(newMsg);
+                    $('#chats').animate({
+                        scrollTop: $('#chats').get(0).scrollHeight
+                    }, 0);
+                }
+        
+            </script>
+        </main>
+        
+	</body>
+
+</html>

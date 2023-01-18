@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>	
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style>
+		body {
+			--color-background: #2B3948;
+			--color-card-primary: #202D3A;
+			--color-background-light: #364656;
+			--color-dark-gray: #364656;
+			--color-dark-text: #616F8C;
+			--color-button-hover: #283343;
+			--color-white: #CAD3DE;
+			--color-gray: #667483;
+			--color-accent-green-dark: #3E8C8C;
+			--color-accent-green-light: #50BFAB;
+			--border-radius: 4px;
+			
+			background: var(--color-background);
+		}
+		
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: "Lucida Console", "Courier New", monospace;
+			box-sizing: border-box;
+		}
+		
+		a{
+			text-decoration: none;
+			color: #000000;
+		}
+		
+		img{
+			cursor: pointer;
+		}
+		
+		.flex-div{
+			display: flex;
+			align-items: center;
+		}
+		
+		nav{
+			padding: 8px 2%;
+			justify-content: space-between;
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+			background: var(--color-button-hover);
+			top: 0;
+			z-index: 10;
+			margin-bottom: 14px;
+		}
+		.nav-right img{
+			width: 25px;
+			margin-right: 15px;
+		}
+		.nav-right .nav-circular-icon{
+			width: 35px;
+			border-radius: 50%;
+			margin-right: 0px;
+		}
+		
+		.search-bar{			
+			border: 1px solid #5A5A5A;
+			margin-left: 15px;
+			padding: 6px 12px;
+			border-radius: var(--border-radius);
+			transition: background 0.2s, border-color 0.2s;
+			outline: none;
+			background: #eeeeee;
+		}
+		
+		.search-bar:focus{
+			border: 1px solid var(--color-white);
+			background: #ffffff;
+		}
+		
+		.search-bar input{
+			width: 400px;
+			border: 0;
+			outline: 0;
+			background: transparent;
+		}
+		
+		.left{
+			width:300px;
+			max-width:300px;
+		}
+		
+		.left-container{
+			display: flex;
+			flex-wrap: wrap;
+			width: 300px;
+			max-width: 300px;
+			margin-left: 1rem;
+			padding: 2rem;
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+			border-radius: var(--border-radius);
+			background: var(--color-button-hover);
+			align-items: center;
+			float:left;
+			text-align: center;
+			margin-bottom: 0.5rem;
+		}
+		
+		.top-panel{
+			height: 100%;
+			width: 100%;
+			color: var(--color-accent-green-light);
+		}
+		
+		.bot-panel{
+			height: 100%;
+			width: 100%;
+			text-align: center;
+			color: var(--color-gray);
+		}
+		
+		.left-container .second{
+			
+		}
+		
+		.form_button{
+			width: 50%;
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			background: var(--color-background);
+		}
+		
+		
+		.form_button:hover {
+			background: var(--color-button-hover);
+			cursor: pointer;
+		}
+		
+		.form_button:active {
+			transform: scale(0.98);
+		}
+		
+		.posts-container{
+			align-items: center;
+			margin-left: 330px;
+		}
+		
+		.create-post{
+			width: 575px;
+			max-width: 575px;
+			margin: 1rem;
+			padding-top: 2rem;
+			padding-right: 2rem;
+			padding-bottom: 1rem;
+			border-radius: var(--border-radius);
+			background: #ffffff;
+			background: var(--color-button-hover);
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+		}
+		
+		
+		.create-post .form_button{
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			width: 13%;
+			background: var(--color-secondary);
+		}
+		
+		.create-post .search-bar{
+			margin-bottom: 1rem;
+			width: 97.5%;
+			padding: 0.75rem;
+			box-sizing: border-box;
+			border-radius: 6px;
+		}
+		
+		.post{
+			color: white;
+			width: 575px;
+			max-width: 575px;
+			margin: 1rem;
+			padding: 2rem;
+			box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.2);
+			border-radius: var(--border-radius);
+			background: var(--color-card-primary);
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+		}
+		
+		.link:hover{
+			background: var(--color-white);
+		}
+		.text_link:hover{
+			text-decoration: underline;
+			cursor: pointer;
+		}
+		
+		.commentButton{
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: #ffffff;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			width: 13%;
+			background: var(--color-background);
+		}
+		
+		.add-comment-textbox{
+			border: 1px solid #5A5A5A;
+			padding: 1px 8px;
+			border-radius: var(--border-radius);
+			transition: background 0.2s, border-color 0.2s;
+			outline: none;
+			background: var(--color-gray);
+		}
+		
+		.add-comment-textbox:focus{
+			background: var(--color-white);
+			border: 1px solid var(--color-white);
+
+		}
+		
+		.likeButton{
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: #ffffff;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			width: 13%;
+			background: var(--color-background);
+		}
+		
+		.logo{
+			color: white;
+		}
+		
+		.comment-container{
+			color: white;
+			align-items: right;
+			margin-left: 20px;
+			font-size: 0.75rem;
+		}
+		
+		.indiv-comment-container{
+			width: 400px;
+			max-width: 400px;
+			margin: 1rem;
+			padding: 2rem;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+			border-radius: var(--border-radius);
+			background: var(--color-button-hover);
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+		}
+		
+		.commentHeader{
+		
+		}
+		
+		</style>
+	</head>
+	
+	<script type="text/javascript">
+	var postIDs = new Set;
+	function createPostDiv(postData) {
+		var outerDiv = document.createElement("div");
+		var post = document.createElement("div");
+		
+		const button = document.createElement("BUTTON");
+		button.innerText = "comments";
+		button.className = "form_button commentButton";
+		
+		var form = document.createElement("form");
+		
+		var textbox = document.createElement("input");
+		textbox.setAttribute("type", "text");
+		textbox.setAttribute("placeholder", "# Make a comment...");
+		textbox.id = "text" + postData.postID.S;
+		var submit = document.createElement("input");
+		submit.setAttribute("type", "submit");
+		submit.setAttribute("value", "comment");
+		submit.className = "form_button commentButton";
+		submit.id = postData.postID.S;
+		submit.setAttribute("name", "comment-submit-button");
+		$(form).append(textbox, submit);
+		console.log(textbox);
+		console.log(submit);
+		
+		//document.body.appendChild(button);
+		const likeButton = document.createElement("BUTTON");
+		likeButton.innerText="like";
+		likeButton.className = "form_button likeButton";
+		likeButton.onsubmit = function(){
+			alert("clicked the thing");
+		};
+		
+		
+		var inter_bar = document.createElement("div");
+		inter_bar.className = "interaction_bar";
+		$(inter_bar).append(form, button, likeButton);
+		
+		var postHeader = document.createElement("div");
+		postHeader.innerHTML = "person -> person      timestamp";
+		
+		var content = document.createElement("div");
+		content.innerHTML = postData.content.S;
+		
+		//console.log("current post:", postData);
+		//post.id = postData.postID.S;
+		post.className = "post";
+		post.append(postHeader, content, inter_bar);
+		outerDiv.append(post);
+		
+		$('#posts').append(outerDiv);
+		
+		console.log(postData.postID.S);
+		postIDs.add(postData.postID.S);
+		
+		button.onclick = function(){
+			console.log("entered comment button");
+			const id = postData.postID.S;
+			// show add comments bar?
+			$.getJSON('/getComments', {postID: id}, function(comments) {
+				console.log(comments);
+				if (comments.length == 0) {
+					// show empty comment section
+					console.log("no comments");
+				} else {
+					// expand under post to show comment section. then change text to hide comment section
+					var commentContainer = document.createElement("div");
+					commentContainer.className = "comment-container";
+					
+					function createCommentDiv(commentData) {
+						var comment = document.createElement("div");
+						
+						var commentHeader = document.createElement("div");
+						commentHeader.innerHTML = "@" + commentData.username.S + " " + commentData.firstName.S + " " + commentData.lastName.S + " " + commentData.timestamp.N;
+						
+						var textDiv = document.createElement("div");
+						textDiv.innerText = commentData.content.S;
+						textDiv.className = "comment-text";
+						comment.append(commentHeader, textDiv);
+						commentContainer.append(comment);
+					}
+					comments.forEach(createCommentDiv);
+					outerDiv.append(commentContainer);
+				}
+			})
+			// for comments and posts, have to get from userid to usernames
+		};
+		
+	}
+	
+	$(document).ready(function() {
+		var user;
+		
+		$.getJSON('/getOtherUserPage', function(data) {
+			console.log(data);
+			$('#accountData').html('Account data: <br> email:' + data.Item.email.S + '<br>' 
+					+ 'username: ' + data.Item.username.S);
+			console.log(data.Item.username.S);
+			$('#name').html(data.Item.firstName.S + " " + data.Item.lastName.S);
+			$('#username').html("@" + data.Item.username.S);
+			$('#username').css({"font-style": "italic"});
+			user = data.Item.username.S;
+			console.log("USER: ", user);
+			
+			$.getJSON('/getPosts', function(data) {
+				console.log("USER REQUEST", user);
+				if (data) {
+					console.log('getPosts data', data);
+					for(var i=0; i < data.length; i++) {
+						createPostDiv(data[i]);
+					}
+				} else { // no posts
+					$('#posts').html('User has no posts. You can make the first post on this wall!')
+				}
+			})
+		})
+		
+		$('#create-post-form').submit(function(event) {
+			event.preventDefault();
+			if($('#postContent').val() != '') {
+				console.log("create post");
+				$.post('/addPost', {
+					username: user,
+					content: $('#postContent').val()
+				}, function(addResult) {
+					console.log(addResult.success);
+					if(addResult.success) {
+						console.log('success');
+					}
+					$('#postContent').val('');
+
+					console.log("add post result", addResult);
+				})
+			}
+		})
+
+		$('#addFriend').click(function() {
+			$.post("/addFriend", {
+				
+			}, function(data) {
+				const content = JSON.parse(data)
+				
+				$("#myModal .body").text(content.message);
+				$('#myModal').modal('show'); 
+			});
+		})
+		
+		$('#posts').on('click', "input[name='comment-submit-button']", function(event) {
+				event.preventDefault();
+				var textid = "text" + $(this).attr('id');
+				console.log(textid);
+				var c = $('#' + textid).val();
+				console.log(c);
+				if(c == '') {
+					alert("empty thing"); //or make button dark so cant be clicked
+				} else {
+					$.post('/addComment', {
+						postID: $(this).attr('id'),
+						content: c
+					}, function(success) {
+						console.log(success);
+						$('#' + textid).val("");
+					})
+				}
+			})
+		
+		
+	})
+
+
+	</script>
+	
+	<body>
+				<nav class="flex-div">
+			<div class="nav-left flex-div">
+				<!-- paths just don't work <img src="./images/logo.png"> -->
+				<h1 class="logo">FakeBook</h1>
+				<div class="search-bar">
+					<input type="text" id="search" placeholder="# Search for a user">
+				</div>
+			</div>
+			
+			<div class="nav-right flex-div">
+				<img src="./images/home.png">
+				<img src="./images/wall.png">
+				<img src="./images/notifications.png">
+				<img src="./images/chat.png">
+				<img src="./images/account.png" class="nav-circular-icon">
+				<!--  <h2>Home</h2>
+				<h2>Wall</h2>
+				<h2>Notifs</h2>
+				<h2>Chat</h2>
+				<h2>Account</h2> -->
+			</div>
+		</nav>
+		
+		<!-- INFO PANEL - maybe add a description/bibliography to make it more aesthetically pleasing lol -->
+		<div class="left">
+			<div class="left-container">
+				<div class="top-panel">
+					<h3 id="name" style="margin-top: 3rem; margin-bottom: 0.1rem;">first last</h3>
+					<h5 id="username" style="margin-bottom: 3rem;"><i>@username</i></h5>
+				</div>
+				<div class="bot-panel">
+					<p id="interests" style="font-size: 10px; margin-top:3rem;"><i>interest1, interest2, interest3</i></p>
+					<p id="num_friends" style="font-size: 10px; margin-top:4rem; margin-bottom:2rem">10 Friends | 5 Mutual Friends?</p>
+					
+					<button id = "addFriend" class="form_button" type="submit"><i>Add Friend</i></button>
+					
+				</div>
+			</div>
+			<div class="left-container second">
+				<div class="top-panel link">
+					<h3 class="text_link">friends (visualizer)</h3>
+				</div>
+				<div class="bot-panel second">
+					
+				</div>
+				<div class="top-panel link">
+					<h3 class="text_link">message</h3>
+				</div>
+				<div class="bot-panel second">
+				
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="posts-container">
+			<div class="create-post">
+				<form action="/addPost" onSubmit="return false" id="create-post-form">
+					<div>
+						<input type="text" id="postContent" class="search-bar" autofocus id="postContent" placeholder="# Make a post...">
+					</div>
+					<div style="text-align:right">
+						<button id="submitPost" class="form_button" onSubmit="return false">Post</button>
+					</div>
+				</form>
+			</div>
+			<div id="posts"></div>
+		</div>
+
+
+		<div id="myModal" role="dialog" class="modal">
+
+			<div class="modal-dialog">
+
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						
+					</div>
+
+					<div class="body">
+
+					</div>
+					<div class=modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	
+		<div id="accountData"></div>
+	</body>
+
+
+</html>

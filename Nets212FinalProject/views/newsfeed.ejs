@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>	
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		
+		<style>
+		body {
+			--color-background: #2B3948;
+			--color-card-primary: #202D3A;
+			--color-background-light: #364656;
+			--color-dark-gray: #364656;
+			--color-dark-text: #616F8C;
+			--color-button-hover: #283343;
+			--color-white: #CAD3DE;
+			--color-gray: #667483;
+			--color-accent-green-dark: #3E8C8C;
+			--color-accent-green-light: #50BFAB;
+			--border-radius: 4px;
+			
+			background: var(--color-background);
+		}
+		
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: "Lucida Console", "Courier New", monospace;
+			box-sizing: border-box;
+		}
+		
+		a{
+			text-decoration: none;
+			color: #000000;
+		}
+		
+		img{
+			cursor: pointer;
+		}
+		
+		.flex-div{
+			display: flex;
+			align-items: center;
+		}
+		
+		nav{
+			padding: 8px 2%;
+			justify-content: space-between;
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+			background: var(--color-button-hover);
+			top: 0;
+			z-index: 10;
+			margin-bottom: 14px;
+		}
+		.nav-right img{
+			width: 25px;
+			margin-right: 15px;
+		}
+		.nav-right .nav-circular-icon{
+			width: 35px;
+			border-radius: 50%;
+			margin-right: 0px;
+		}
+		
+		.search-bar{			
+			border: 1px solid #5A5A5A;
+			margin-left: 15px;
+			padding: 6px 12px;
+			border-radius: var(--border-radius);
+			transition: background 0.2s, border-color 0.2s;
+			outline: none;
+			background: #eeeeee;
+		}
+		
+		.search-bar:focus{
+			border: 1px solid var(--color-white);
+			background: #ffffff;
+		}
+		
+		.search-bar input{
+			width: 400px;
+			border: 0;
+			outline: 0;
+			background: transparent;
+		}
+		
+		.left{
+			width:300px;
+			max-width:300px;
+		}
+		
+		.left-container{
+			display: flex;
+			flex-wrap: wrap;
+			width: 300px;
+			max-width: 300px;
+			margin-left: 1rem;
+			padding: 2rem;
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+			border-radius: var(--border-radius);
+			background: var(--color-button-hover);
+			align-items: center;
+			float:left;
+			text-align: center;
+			margin-bottom: 0.5rem;
+		}
+		
+		.top-panel{
+			height: 100%;
+			width: 100%;
+			color: var(--color-accent-green-light);
+		}
+		
+		.bot-panel{
+			height: 100%;
+			width: 100%;
+			text-align: center;
+			color: var(--color-gray);
+		}
+		
+		.left-container .second{
+			
+		}
+		
+		.form_button{
+			width: 50%;
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			background: var(--color-background);
+		}
+		
+		
+		.form_button:hover {
+			background: var(--color-button-hover);
+			cursor: pointer;
+		}
+		
+		.form_button:active {
+			transform: scale(0.98);
+		}
+		
+		.posts-container{
+			align-items: center;
+			margin-left: 330px;
+		}
+		
+		.create-post{
+			width: 575px;
+			max-width: 575px;
+			margin: 1rem;
+			padding-top: 2rem;
+			padding-right: 2rem;
+			padding-bottom: 1rem;
+			border-radius: var(--border-radius);
+			background: #ffffff;
+			background: var(--color-button-hover);
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+		}
+		
+		
+		.create-post .form_button{
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			width: 13%;
+			background: var(--color-secondary);
+		}
+		
+		.create-post .search-bar{
+			margin-bottom: 1rem;
+			width: 97.5%;
+			padding: 0.75rem;
+			box-sizing: border-box;
+			border-radius: 6px;
+		}
+		
+		.post{
+			color: white;
+			width: 575px;
+			max-width: 575px;
+			margin: 1rem;
+			padding: 2rem;
+			box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.2);
+			border-radius: var(--border-radius);
+			background: var(--color-card-primary);
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+		}
+		
+		.link:hover{
+			background: var(--color-white);
+		}
+		.text_link:hover{
+			text-decoration: underline;
+			cursor: pointer;
+		}
+		
+		.commentButton{
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: #ffffff;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			width: 13%;
+			background: var(--color-background);
+		}
+		
+		.add-comment-textbox{
+			border: 1px solid #5A5A5A;
+			padding: 1px 8px;
+			border-radius: var(--border-radius);
+			transition: background 0.2s, border-color 0.2s;
+			outline: none;
+			background: var(--color-gray);
+		}
+		
+		.add-comment-textbox:focus{
+			background: var(--color-white);
+			border: 1px solid var(--color-white);
+
+		}
+		
+		.likeButton{
+			padding: 0.5rem 0.25rem;
+			font-size: 1rem;
+			color: #ffffff;
+			border: none;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			width: 13%;
+			background: var(--color-background);
+		}
+		
+		.logo{
+			color: white;
+		}
+		
+		.comment-container{
+			color: white;
+			align-items: right;
+			margin-left: 20px;
+			font-size: 0.75rem;
+		}
+		
+		.indiv-comment-container{
+			width: 400px;
+			max-width: 400px;
+			margin: 1rem;
+			padding: 2rem;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+			border-radius: var(--border-radius);
+			background: var(--color-button-hover);
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+		}
+		
+		.commentHeader{
+		
+		}
+		</style>
+	</head>
+	
+	<body> 
+		<nav class="flex-div">
+			<div class="nav-left flex-div">
+				<!-- paths just don't work <img src="./images/logo.png"> -->
+				<h1 class="logo" id="logo" style="font-family: mono">FakeBook</h1>
+				<div class="search-bar">
+					<input type="text" id="search" placeholder="# Search for a user">
+				</div>
+			</div>
+			
+			<div class="nav-right flex-div">
+				<img src="./images/home.png">
+				<img src="./images/wall.png">
+				<img src="./images/notifications.png">
+				<img src="./images/chat.png">
+				<img src="./images/account.png" class="nav-circular-icon">
+			</div>
+		</nav>
+		
+		<div id="posts"></div>
+	</body>
+</html>

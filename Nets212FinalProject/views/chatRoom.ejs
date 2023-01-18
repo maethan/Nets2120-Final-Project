@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
+            #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+            #input:focus { outline: none; }
+            #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+      
+            #messages { list-style-type: none; margin: 0; padding: 0; }
+            #messages > li { padding: 0.5rem 1rem; }
+
+
+            .chat-container{
+                align-items: center;
+                margin-left: 16vw;
+            }
+
+            .left-container{
+                display: flex;
+                flex-wrap: wrap;
+                width: 15vw;
+                height: 100vh;
+                padding: 2rem;
+                box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+                border-radius: var(--border-radius);
+                background: var(--color-button-hover);
+                align-items: center;
+                float:left;
+                text-align: center;
+            }
+          </style>
+	</head>
+	
+	<body>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript">
+            var socket = io();
+        
+            var roomID = <%- JSON.stringify(roomID) %>;
+            var userID = <%- JSON.stringify(user) %>;
+            var firstName = <%- JSON.stringify(firstName) %>;
+            var lastName = <%- JSON.stringify(lastName) %>;
+            var messages = <%- JSON.stringify(messages) %>;
+            var username = <%- JSON.stringify(username) %>;
+
+            console.log("Client side messages: ", messages);
+
+            $(document).ready(function() {
+                socket.on('chat message', function(msg) {
+                    var newMsg = document.createElement('li');
+
+                    var time = new Date(0);
+                    time.setUTCSeconds(Date.now() / 1000);
+                    var date;
+                    var minute = (Math.floor(time.getMinutes() / 10) == 0) ? "0" + time.getMinutes() : time.getMinutes();
+                    var hours;
+                    var ampm;
+                    if (time.getHours() == 0) {
+                        hours = 12;
+                        ampm = "AM";
+                    } else if (time.getHours() >= 12) {
+                        hours = (time.getHours() == 12) ? time.getHours() : time.getHours() - 12;
+                        ampm = "PM";
+                    } else {
+                        hours = time.getHours();
+                        ampm = "AM";
+                    }
+                    date = "Today at " + hours + ":" + minute + " " + ampm;
+                    
+                    var text = document.createElement('b');
+                    text.innerHTML =  msg.firstName + " " + msg.lastName + " ";
+                    newMsg.appendChild(text);
+                    newMsg.appendChild(document.createTextNode(date));
+                    newMsg.appendChild(document.createElement('br'));
+                    newMsg.appendChild(document.createTextNode(msg.text));
+                    $('#messages').append(newMsg);
+                    $('#messages').animate({
+                        scrollTop: $('#messages').get(0).scrollHeight
+                    }, 0);
+                });
+
+                //Get element of the chat input form
+                var chatInput = document.getElementById("chatInput");
+
+                //Create event listener for the enter key
+                chatInput.addEventListener("keypress", function(key) {
+                    if (key.key === "Enter") {
+                        //Stop from submitting the form
+                        key.preventDefault();
+                        //Click the submit button
+                        document.getElementById("formButton").click();
+                    }
+                });
+            })
+        </script>
+        <script>
+            function sendChat() {
+                console.log("invoked sendChat()");
+                var input = $('#chatInput').val().trim();
+                if (input !== '') {
+                    $.post('/logMessage', {
+                            userID: userID,
+                            chatID: roomID,
+                            message: input,
+                            timestamp: Date.now() + ""},
+                        function(data) {
+                            if (!data.success) {
+                                alert("Error sending message!");
+                            } else {
+                                console.log("Added message to db");
+                                socket.emit('chat message', {
+                                    text: input,
+                                    sender: userID,
+                                    room: roomID,
+                                    firstName: firstName,
+                                    lastName: lastName
+                                });
+                            }
+                        }
+                    );
+                }
+                $('#chatInput').val('');
+                $('#chatInput').focus();
+            }
+
+            function leaveChat() {
+                $.post('/leave', { room: roomID }, function (data) {
+                    if (data.success) {
+                        room = false;
+                        socket.emit('leave room', {
+                            sender: userId,
+                            room: roomID
+                        });
+                    }
+                })
+            }
+        </script>
+        <main>
+            <div class="left">
+                <div class="left-container">
+                    <div class="top-panel">
+                        <h2 id="name" style="margin-top: 3rem; margin-bottom: 0.1rem;"></h2>
+                        <h5 id="username" style="margin-bottom: 3rem;"><i></i></h5>
+                    </div>
+                    <div class="bot-panel">
+                        <p id="interests" style="font-size: 10px; margin-top:3rem;">Online friends and invite here</p>
+                        <a href="/chats">
+                            <button class="form_button" type="submit"><i>Back</i></button>
+                        </a>
+                    </div>
+                </div>              
+            </div>
+            <div class="chat-container">
+                <div>
+                    <ul id="messages" style="height:93vh; overflow: auto">
+                    </ul>
+                </div>
+                
+                <div>
+                    <form id = "chatForm">
+                        <input placeholder="Message" id="chatInput" style="width:80vw" autofocus>
+                        <button type="button" id="formButton" onClick="return sendChat();">Send</button>
+                    </form>
+                </div>
+            </div>
+    
+            <script>
+                console.log("Loading saved messages");
+                for (var i = 0; i < messages.length; i++) {
+                    if (messages[i]) {
+                        var newMsg = document.createElement('li');
+                        if (userID === messages[i].userID.S) {
+                            newMsg.setAttribute("class", "me");
+                        } else {
+                            newMsg.setAttribute("class", "other");
+                        }
+                        var time = new Date(0);
+                        time.setUTCSeconds(messages[i].timestamp.N / 1000);
+                        var date;
+                        var currTime = new Date(0);
+                        currTime.setUTCSeconds(Date.now() / 1000);
+                        if (time.getDate() == currTime.getDate() && time.getFullYear() == currTime.getFullYear()) {
+                            var minute = (Math.floor(time.getMinutes() / 10) == 0) ? "0" + time.getMinutes() : time.getMinutes();
+                            var hours;
+                            var ampm;
+                            if (time.getHours() == 0) {
+                                hours = 12;
+                                ampm = "AM";
+                            } else if (time.getHours() >= 12) {
+                                hours = (time.getHours() == 12) ? time.getHours() : time.getHours() - 12;
+                                ampm = "PM";
+                            } else {
+                                hours = time.getHours();
+                                ampm = "AM";
+                            }
+                            date = "Today at " + hours + ":" + minute + " " + ampm;
+                        } else {
+                            date = time.getMonth() + "/" + time.getDate() + "/" + time.getFullYear();
+                        }
+
+                        var text = document.createElement('b');
+                        text.innerHTML = messages[i].firstName.S + " " + messages[i].lastName.S + " ";
+                        newMsg.appendChild(text);
+                        newMsg.appendChild(document.createTextNode(date));
+                        newMsg.appendChild(document.createElement('br'));
+                        newMsg.appendChild(document.createTextNode(messages[i].message.S));
+                        $('#messages').append(newMsg);
+                        $('#messages').animate({
+                            scrollTop: $('#messages').get(0).scrollHeight
+                        }, 0);
+                    }
+                }
+                /*$.post('/join', { room: roomID }, function(data) {
+                    if (data.success) {
+                        console.log("joined room");
+                        room = true;
+                        socket.emit('join room', {
+                            sender: userID,
+                            room: roomID
+                        });
+                    }
+                });*/
+                console.log("joined room");
+                room = true;
+                socket.emit('join room', {
+                    sender: userID,
+                    room: roomID
+                });
+            </script>
+        </main>
+        
+	</body>
+
+</html>
